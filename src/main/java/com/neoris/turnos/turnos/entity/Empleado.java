@@ -19,41 +19,27 @@ public class Empleado {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
-	
+
 	@Column(name = "apellido", nullable = false)
 	private String apellido;
-	
+
 	@Column(name = "dni", nullable = false, unique = true)
 	private Integer dni;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "empleado_id")
 	private List<JornadaLaboral> jornadoLaboral;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "empleado_id")
-	private List<DiaLibre> diaLibre;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "empleado_id")
-	private List<TurnoExtra> turnoExtra;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "empleado_id")
 	private List<Vacaciones> vacaciones;
-	
 
-
-	public Empleado(String nombre, String apellido, Integer dni, List<JornadaLaboral> jornadoLaboral) {
-		super();
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.dni = dni;
-		this.jornadoLaboral = jornadoLaboral;
-	}
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "empleado_id")
+	private List<DiaLibre> diaLibre;
 
 	public Empleado() {
 		super();
@@ -105,5 +91,23 @@ public class Empleado {
 	public void setJornadoLaboral(List<JornadaLaboral> jornadoLaboral) {
 		this.jornadoLaboral = jornadoLaboral;
 	}
+
+	public List<Vacaciones> getVacaciones() {
+		return vacaciones;
+	}
+
+	public void setVacaciones(List<Vacaciones> vacaciones) {
+		this.vacaciones = vacaciones;
+	}
+
+	public List<DiaLibre> getDiaLibre() {
+		return diaLibre;
+	}
+
+	public void setDiaLibre(List<DiaLibre> diaLibre) {
+		this.diaLibre = diaLibre;
+	}
+	
+	
 
 }

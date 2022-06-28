@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.neoris.turnos.turnos.entity.Empleado;
 import com.neoris.turnos.turnos.entity.JornadaLaboral;
+import com.neoris.turnos.turnos.entity.TurnoExtra;
 import com.neoris.turnos.turnos.service.JornadaLaboralService;
 
 @RestController
@@ -38,12 +40,12 @@ public class JornadaLaboralControler {
 	}
 
 	// TRAIGO LA JORNADA LABORAL POR SU ID
-	@GetMapping("/traerJornadaLaborales/{id}")
+	@GetMapping("/traerJornadaLaboralesId/{id}")
 	public ResponseEntity<JornadaLaboral> idJornadaLaboral(@PathVariable Integer id) {
 
 		try {
-			JornadaLaboral jornadaLaboralId = service.idJornadaLaboral(id);
-			return new ResponseEntity<JornadaLaboral>(jornadaLaboralId, HttpStatus.OK);
+
+			return new ResponseEntity<JornadaLaboral>(service.idJornadaLaboral(id), HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<JornadaLaboral>(HttpStatus.NOT_FOUND);
@@ -53,20 +55,17 @@ public class JornadaLaboralControler {
 
 	// MODIFICO UNA JORNADA LABORAL POR SU ID
 	@PutMapping("/modificarJornadaLaboral/{id}")
-	public ResponseEntity<?> modificarJornadaLaboral(@RequestBody JornadaLaboral jornadaLaboral,
+	public ResponseEntity<JornadaLaboral> modificarJornadaLaboral(@RequestBody JornadaLaboral jornadaLaboral,
 			@PathVariable Integer id) {
+
 		try {
-			JornadaLaboral jornadaLaboralModificado = service.idJornadaLaboral(id);
-			jornadaLaboralModificado.setHoraEntrada(jornadaLaboral.getHoraEntrada());
-			jornadaLaboralModificado.setHoraSalida(jornadaLaboral.getHoraSalida());
-			jornadaLaboralModificado.setDia(jornadaLaboral.getDia());
-			jornadaLaboralModificado.setTipoJornadaLaboral(jornadaLaboral.getTipoJornadaLaboral());
-			service.crearJornadaLaboral(jornadaLaboralModificado);
-			return new ResponseEntity<JornadaLaboral>(HttpStatus.OK);
+			return new ResponseEntity<JornadaLaboral>(service.modificarJornadaLaboral(jornadaLaboral, id),
+					HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<JornadaLaboral>(HttpStatus.NOT_FOUND);
 		}
+
 	}
 
 	// ELIMINO UNA JORNADA LABORAL POR SU ID
@@ -81,7 +80,33 @@ public class JornadaLaboralControler {
 			return new ResponseEntity<JornadaLaboral>(HttpStatus.NOT_FOUND);
 		}
 	}
-
-
+	
+	
+	// INTENTAR DE ARREGLAR
+//	@PostMapping("/cargarTurnoExtraAJornadaLaboral1/{id}")
+//	public JornadaLaboral cargarTurnoExtraAJornadaLaboral(@PathVariable Integer id) throws Exception{
+//		
+//		return service.cargarTurnoExtraAJornadaLaboral(id);
+//		
+//		try {
+//			return new ResponseEntity<JornadaLaboral>(service.cargarTurnoExtraAJornadaLaboral(cantHoras, id) ,HttpStatus.OK);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			return new ResponseEntity<JornadaLaboral>(HttpStatus.NOT_FOUND);
+//		}
+//			
+//	}
+	
+	@PostMapping("/cargarTurnoExtraAJornadaLaboral/{id}")
+	public ResponseEntity<JornadaLaboral> cargarTurnoExtraAJornadaLaboral(@RequestBody TurnoExtra turnoExtra, @PathVariable Integer id) throws Exception{
+				
+		try {
+			return new ResponseEntity<JornadaLaboral>(service.cargarTurnoExtraAJornadaLaboral(turnoExtra, id) ,HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<JornadaLaboral>(HttpStatus.NOT_FOUND);
+		}
+			
+	}
 
 }

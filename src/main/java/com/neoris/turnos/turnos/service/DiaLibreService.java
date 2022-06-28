@@ -29,12 +29,12 @@ public class DiaLibreService {
 		return repository.findById(id).get();
 	}
 
-	public void modificarDiaLibreId(DiaLibre diaLibre, Integer id) {
+	public DiaLibre modificarDiaLibreId(DiaLibre diaLibre, Integer id) {
 
 		DiaLibre aux = this.mostrarDiaLibresId(id);
 
 		aux.setDia(diaLibre.getDia());
-		repository.save(aux);
+		return repository.save(aux);
 	}
 
 	public void eliminarDiaLibreId(Integer id) {

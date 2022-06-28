@@ -3,6 +3,8 @@ package com.neoris.turnos.turnos.controler;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +23,7 @@ public class TurnoExtraControler {
 	private TurnoExtraService service;
 
 	@PostMapping("/crearTurnoExtra")
-	public boolean crearTurnoExtra(@RequestBody TurnoExtra turnoExtra) {
+	public boolean crearTurnoExtra(@RequestBody TurnoExtra turnoExtra) throws Exception {
 
 		service.crearTurnoExtra(turnoExtra);
 		return true;
@@ -36,23 +38,40 @@ public class TurnoExtraControler {
 	}
 
 	@GetMapping("/traerTurnosExtrasId/{id}")
-	public TurnoExtra traerTurnosExtrasId(@PathVariable Integer id) {
+	public ResponseEntity<TurnoExtra> traerTurnosExtrasId(@PathVariable Integer id) {
 
-		return service.traerTurnosExtrasId(id);
+		try {
+			return new ResponseEntity<TurnoExtra>(service.traerTurnosExtrasId(id), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<TurnoExtra>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@PutMapping("/modificarTurnoExtraId/{id}")
-	public boolean modificarTurnoExtraId(@RequestBody TurnoExtra turnoExtra, @PathVariable Integer id) {
+	public ResponseEntity<TurnoExtra> modificarTurnoExtraId(@RequestBody TurnoExtra turnoExtra,
+			@PathVariable Integer id) {
 
-		service.modificarTurnoExtraId(turnoExtra, id);
-		return true;
+		try {
+			return new ResponseEntity<TurnoExtra>(service.modificarTurnoExtraId(turnoExtra, id), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<TurnoExtra>(HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 	@DeleteMapping("/eliminarTurnoExtraId/{id}")
-	public boolean eliminarTurnoExtraId(@PathVariable Integer id) {
+	public ResponseEntity<TurnoExtra> eliminarTurnoExtraId(@PathVariable Integer id) {
 
-		service.eliminarTurnoExtraId(id);
-		return true;
+		try {
+			service.eliminarTurnoExtraId(id);
+			return new ResponseEntity<TurnoExtra>(HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<TurnoExtra>(HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 }

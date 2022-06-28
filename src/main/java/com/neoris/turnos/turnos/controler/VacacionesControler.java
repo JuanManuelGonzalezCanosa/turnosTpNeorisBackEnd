@@ -3,6 +3,8 @@ package com.neoris.turnos.turnos.controler;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,31 +30,50 @@ public class VacacionesControler {
 
 	}
 
-	@GetMapping("/mostrarVacaciones")
+	@GetMapping("/traerVacaciones")
 	public List<Vacaciones> mostrarVacaciones() {
 
 		return service.mostrarVacaciones();
 
 	}
 
-	@GetMapping("/mostrarVacacionesId/{id}")
-	public Vacaciones mostrarVacacionesId(@PathVariable Integer id) {
+	@GetMapping("/traerVacacionesId/{id}")
+	public ResponseEntity<Vacaciones> mostrarVacacionesId(@PathVariable Integer id) {
 
-		return service.mostrarVacacionesId(id);
+		try {
+			return new ResponseEntity<Vacaciones>(service.mostrarVacacionesId(id), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<Vacaciones>(HttpStatus.NOT_FOUND);
+		}
+		
+
 	}
 
 	@PutMapping("/modificarVacacionesId/{id}")
-	public boolean modificarVacacionesId(@RequestBody Vacaciones vacaciones, @PathVariable Integer id) {
+	public ResponseEntity<Vacaciones> modificarVacacionesId(@RequestBody Vacaciones vacaciones, @PathVariable Integer id) {
 
-		service.modificarVacacionesId(vacaciones, id);
-		return true;
+		
+		try {
+			return new ResponseEntity<Vacaciones>(service.modificarVacacionesId(vacaciones, id), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<Vacaciones>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@DeleteMapping("/eliminarVacacionesId/{id}")
-	public boolean eliminarVacacionesId(@PathVariable Integer id) {
+	public ResponseEntity<Vacaciones> eliminarVacacionesId(@PathVariable Integer id) {
 
-		service.eliminarVacacionesId(id);
-		return true;
+		
+		try {
+			service.eliminarVacacionesId(id);
+			return new ResponseEntity<Vacaciones>(HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<Vacaciones>(HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 }

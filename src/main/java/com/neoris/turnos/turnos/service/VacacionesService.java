@@ -33,14 +33,14 @@ public class VacacionesService {
 
 	}
 
-	public void modificarVacacionesId(Vacaciones vacaciones, Integer id) {
+	public Vacaciones modificarVacacionesId(Vacaciones vacaciones, Integer id) {
 
 		Vacaciones aux = this.mostrarVacacionesId(id);
 
 		aux.setDiaInicio(vacaciones.getDiaInicio());
 		aux.setDiaFinal(vacaciones.getDiaFinal());
 
-		repository.save(aux);
+		return repository.save(aux);
 
 	}
 

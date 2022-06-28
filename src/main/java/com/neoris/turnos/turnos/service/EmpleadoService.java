@@ -1,14 +1,15 @@
 package com.neoris.turnos.turnos.service;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.neoris.turnos.turnos.entity.DiaLibre;
 import com.neoris.turnos.turnos.entity.Empleado;
 import com.neoris.turnos.turnos.entity.JornadaLaboral;
-import com.neoris.turnos.turnos.entity.TipoJornadaLaboral;
+import com.neoris.turnos.turnos.entity.TurnoExtra;
+import com.neoris.turnos.turnos.entity.Vacaciones;
 import com.neoris.turnos.turnos.repository.IEmpleadoRepository;
 
 @Service("empleadoService")
@@ -32,6 +33,17 @@ public class EmpleadoService {
 		return repository.findAll();
 	}
 	
+	public Empleado modificarEmpleadoId(Empleado empleado, Integer id) {
+		
+		Empleado aux = this.idEmpleado(id);
+		aux.setApellido(empleado.getApellido());
+		aux.setDni(empleado.getDni());
+		aux.setNombre(empleado.getNombre());
+		
+		return repository.save(aux);
+		
+	}
+	
 	//ELIMINO AL EMPLEADO POR LA ID
 	public void eliminarEmpleado(Integer id) {
 		repository.deleteById(id);
@@ -39,42 +51,41 @@ public class EmpleadoService {
 
 	
 	//CARGO 5 JORNADAS(LUNES A VIERNES) PARA UN EMPLEADO
-	public void cargarJornadaLaboralSemanaEmpleado(List<JornadaLaboral> jornadaLaboralSemana, Integer id)
+	public Empleado cargarJornadaLaboralAlEmpleadoId(List<JornadaLaboral> jornadaLaboralSemana, Integer id)
 			throws Exception {
+		
 		Empleado aux = repository.findById(id).get();
 
 		this.verificacionDelaJornadaLaboral(jornadaLaboralSemana);
 
 		aux.getJornadoLaboral().addAll(jornadaLaboralSemana);
-		repository.save(aux);
+		return repository.save(aux);
 
 	}
+	
+	public Empleado cargarDiaLibreAlEmpleadoId(List<DiaLibre> diaLibre, Integer id) {
+		
+		Empleado aux = repository.findById(id).get();
+		
+		aux.getDiaLibre().addAll(diaLibre);
+		
+		return repository.save(aux);
+	}
+	
+	public Empleado cargarVacacionesAlEmpleadoId(List<Vacaciones> vacaciones, Integer id) {
+		
+		Empleado aux = repository.findById(id).get();
+		
+		aux.getVacaciones().addAll(vacaciones);
+		
+		return repository.save(aux);
+	}
+	
 
 	//HAGO LAS VERIFICACIONES AL AGREGAR LAS JORNADAS AL EMPLEADO
-	@SuppressWarnings("deprecation")
 	public void verificacionDelaJornadaLaboral(List<JornadaLaboral> jornadaLaboralSemana) throws Exception {
 
-		if (jornadaLaboralSemana.size() != 5) {
-			throw new Exception("Error tiene que cargar 5 jornadas laborales para cada dia de la semana");
-		}
-
-		int horaEntrada = 0, horaSalida = 0, totalHoras = 0;
-		boolean flag = true;
-
-		for (JornadaLaboral jornadaLaboral : jornadaLaboralSemana) {
-			
-			horaEntrada = jornadaLaboral.getHoraEntrada().getHour();
-			horaSalida = jornadaLaboral.getHoraSalida().getHour();
-
-			totalHoras += horaSalida - horaEntrada;
-		}
-
-		if (!flag) {
-			throw new Exception("Las horas de las jornadas pueden ser entre 6 y 8");
-		}
-		if (totalHoras < 30 || totalHoras > 48) {
-			throw new Exception("Error el Empleado no puede tener mas de 48 horas y menos de 30 horas");
-		}
+		// AGREGAR COSAS
 
 	}
 

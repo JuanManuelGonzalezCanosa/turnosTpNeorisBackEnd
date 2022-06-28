@@ -30,10 +30,9 @@ public class DiaLibre {
 	@Column(name = "tipoJornadaLaboral", nullable = false)
 	private TipoJornadaLaboral tipoJornadaLaboral = TipoJornadaLaboral.DIALIBRE;
 
-	public DiaLibre(LocalDate dia, TipoJornadaLaboral tipoJornadaLaboral) {
+	public DiaLibre(LocalDate dia) {
 		super();
 		this.dia = dia;
-		this.tipoJornadaLaboral = tipoJornadaLaboral;
 	}
 
 	public DiaLibre() {
