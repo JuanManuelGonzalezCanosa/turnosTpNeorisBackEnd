@@ -1,4 +1,4 @@
-package com.neoris.turnos.turnos;
+package com.objetos.tp.grupodiez;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
